@@ -45,6 +45,11 @@
     @extend .icon-pre;
     background-position: -41px -304px;
 }
+.icon-stamp{
+    width: 70px;
+    height: 70px;
+    background-position: -93px -302px;
+}
 
 a{
     &:hover{
@@ -196,12 +201,22 @@ a{
             line-height: 45px;
             font-size: 26px;
         }
+        .btn{
+            margin-top: 6px;
+        }
     }
     &.gray-bg{
         background-color: #f8f8f8;
     }
     &.transparent-bg{
         background-color: rgba(0, 0, 0, .3);
+    }
+    @media screen and (max-width: 1170px){
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    @media screen and (max-width: 800px){
+        padding: 25px;
     }
 }
 
@@ -220,6 +235,9 @@ a{
             margin: 10px 0;
             font-size: 16px;
             color: #000;
+            &:hover{
+                color: $theme-color;
+            }
         }
         p{
             color: #999;
@@ -227,6 +245,15 @@ a{
     }
     .shell{
         padding: 0 20px;
+    }
+    @media screen and (max-width: 800px){
+        .item{
+            float: none;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            max-width: 450px;
+        }
     }
 }
 
@@ -250,17 +277,39 @@ a{
     width: 100%;
     height: 158px;
     ul{
-        display: table;
-        table-layout: fixed;
+        @include clearfix;
         width: 100%;
         li{
-            display: table-cell;
+            float: left;
+            width: 25%;
             text-align: center;
             a{
+                display: inline-block;
                 font-size: 16px;
                 font-weight: bold;
                 color: #000;
+                &:hover{
+                    color: $theme-color;
+                }
             }
+        }
+    }
+    @media screen and (max-width: 750px){
+        height: 376px;
+        ul{
+            li{
+                margin-bottom: 30px;
+                width: 50%;
+            }
+        }
+    }
+    @media screen and (max-width: 400px){
+        i{
+            -webkit-transform: scale(.8);
+            -moz-transform: scale(.8);
+            -ms-transform: scale(.8);
+            -o-transform: scale(.8);
+            transform: scale(.8);
         }
     }
 }
@@ -286,6 +335,15 @@ a{
         padding: 10px 20px 10px 30px;
         border-radius: 3px;
         color: #fff;
+        &:hover{
+            border-color: $theme-color;
+            color: $theme-color;
+        }
+    }
+    @media screen and (max-width: 650px){
+        p{
+            width: 100%;
+        }
     }
 }
 
@@ -323,6 +381,124 @@ a{
     .btn{
         &:hover{
             background-color: lighten($theme-color, 5%);
+        }
+    }
+}
+
+.question{
+    margin: 0 -20px;
+    padding-bottom: 60px;
+    overflow: hidden;
+    .screen{
+        @include clearfix;
+        width: 9999px;
+    }
+    .qa{
+        float: left;
+        width: 585px;
+    }
+    .shell{
+        position: relative;
+        margin: 0 20px;
+        border: #ececec solid 1px;
+        padding: 20px;
+    }
+    h3{
+        padding-bottom: 10px;
+        font-size: 16px;
+    }
+    p{
+        color: #999;
+    }
+}
+.stamp{
+    position: absolute;
+    left: 20px;
+    bottom: -60px;
+    font-size: 16px;
+    i{
+        margin-right: 10px;
+        vertical-align: -24px;
+    }
+}
+
+.footer{
+    .top{
+        padding: 40px 0 20px;
+        background-color: #f4f4f4;
+    }
+    .qrcode{
+        float: left;
+        width: 178px;
+        text-align: center;
+        img{
+            width: 100%;
+        }
+    }
+    .item{
+        float: left;
+        margin-left: 180px;
+        width: 296px;
+        h2{
+            position: relative;
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: $theme-color solid 2px;
+            &:after{
+                position: absolute;
+                left: 40px;
+                bottom: -2px;
+                content: '';
+                width: 20px;
+                height: 2px;
+                background-color: #f4f4f4;
+            }
+        }
+        p{
+            line-height: 30px;
+            color: #999;
+        }
+        a{
+            margin-right: 60px;
+            color: #999;
+            &:hover{
+                color: $theme-color;
+            }
+        }
+    }
+    .bottom{
+        padding: 30px 0;
+        font-size: 12px;
+        text-align: center;
+        color: #999;
+    }
+    h2{
+        padding-bottom: 30px;
+        font-size: 18px;
+        color: $theme-color;
+    }
+    @media screen and (max-width: 650px){
+        margin-top: 20px;
+        .top{
+            padding: 40px 10px 25px;
+        }
+        .qrcode{
+            width: 100%;
+            text-align: center;
+            img{
+                width: 178px;
+            }
+        }
+        .item{
+            margin-left: 0;
+            width: 100%;
+            text-align: center;
+            h2{
+                margin: 30px 0 20px;
+            }
+            a{
+                margin: 0 30px;
+            }
         }
     }
 }
