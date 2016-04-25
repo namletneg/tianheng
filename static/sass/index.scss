@@ -34,7 +34,7 @@
 }
 .icon-product-4{
     @extend .icon-product-1;
-    background-position: -169px -153px;
+    background-position: -168px -153px;
 }
 .icon-pre{
     width: 8px;
@@ -49,6 +49,15 @@
     width: 70px;
     height: 70px;
     background-position: -93px -302px;
+}
+.icon-carousel-pre{
+    width: 8px;
+    height: 16px;
+    background-position: 0 -372px;
+}
+.icon-carousel-next{
+    @extend .icon-carousel-pre;
+    background-position: -28px -372px;
 }
 
 a{
@@ -185,9 +194,87 @@ a{
 }
 
 .carousel{
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, .7);
+    .pre,
+    .next{
+        position: absolute;
+        top: 50%;
+        z-index: 1000;
+        display: inline-block;
+        margin-top: -55px;
+        width: 30px;
+        height: 110px;
+        line-height: 110px;
+        text-align: center;
+        background-color: rgba(0, 0, 0, .7);
+        &:hover{
+            background-color: rgba(0, 0, 0, .9);
+        }
+    }
+    .pre{
+        left: 0;
+    }
+    .next{
+        right: 0;
+    }
+    @media screen and (max-width: 800px){
+        .pre,
+        .next{
+            display: none;
+        }
+    }
+}
+.carousel-body{
     width: 100%;
     height: 470px;
-    background: rgba(0,0,0,.5);
+    .item{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        &.active{
+            z-index: 999;
+        }
+    }
+    .banner-1{
+        background: url("../images/banner-1_bg.jpg") no-repeat center;
+    }
+    .banner-2{
+        background-color: #ff3300;
+    }
+    .banner-3{
+        background-color: #33ffff;
+    }
+    @media screen and (max-width: 800px){
+        height: 310px;
+        .banner-1{
+            background-size: 530%;
+        }
+    }
+}
+.carousel-dot{
+    position: absolute;
+    right: 50%;
+    bottom: 20px;
+    z-index: 1000;
+    margin-right: -565px;
+    a{
+        display: inline-block;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        background-color: #fff;
+        &.active{
+            background-color: $theme-color;
+        }
+    }
+    @media screen and (max-width: 800px){
+        right: 20px;
+        margin-right: 0;
+    }
 }
 
 .floor{
@@ -274,14 +361,20 @@ a{
 }
 
 .product{
+    position: relative;
     width: 100%;
     height: 158px;
     ul{
         @include clearfix;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: none;
         width: 100%;
         li{
             float: left;
             width: 25%;
+            opacity: 0;
             text-align: center;
             a{
                 display: inline-block;
@@ -292,6 +385,9 @@ a{
                     color: $theme-color;
                 }
             }
+        }
+        &.active{
+            display: block;
         }
     }
     @media screen and (max-width: 750px){
@@ -437,8 +533,8 @@ a{
     }
     .item{
         float: left;
-        margin-left: 180px;
-        width: 296px;
+        margin-left: 170px;
+        width: 306px;
         h2{
             position: relative;
             margin-bottom: 30px;
