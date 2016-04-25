@@ -81,18 +81,22 @@
                 i, len, m,
                 handlerStart = function (event) {
                     self.startX = event.targetTouches[0].pageX;
+                    self.startY = event.targetTouches[0].pageY;
                     self.offsetX = 0;
                     self.startTime = new Date();
                 },
                 handlerMove = function (event) {
-                    event.preventDefault();
                     self.moveX = event.targetTouches[0].pageX;
+                    self.moveY = event.targetTouches[0].pageY;
                     self.offsetX = self.moveX - self.startX;
 
-                    for (i = self.idx - 1, m = i + 3; i < m; i++) {
-                        item[i] && (item[i].style.transform = 'translate3d(' + (scale * (i - self.idx) + self.offsetX) + 'px, 0, 0)') &&
-                        ((item[i].style.webkitTransform = 'translate3d(' + (scale * (i - self.idx) + self.offsetX) + 'px, 0, 0)')) &&
-                        (item[i].style.transition = 'none');
+                    if (Math.abs(self.moveY - self.startY) < Math.abs(self.moveX - self.startX)) {
+                        event.preventDefault();
+                        for (i = self.idx - 1, m = i + 3; i < m; i++) {
+                            item[i] && (item[i].style.transform = 'translate3d(' + (scale * (i - self.idx) + self.offsetX) + 'px, 0, 0)') &&
+                            ((item[i].style.webkitTransform = 'translate3d(' + (scale * (i - self.idx) + self.offsetX) + 'px, 0, 0)')) &&
+                            (item[i].style.transition = 'none');
+                        }
                     }
                 },
                 handlerUp = function () {
@@ -229,8 +233,8 @@
                         var $div = $('.product'),
                             top = getPosition($div[0]).y - 500;
 
-                        if(this.scrollY > top){
-                            if(!isOnly){
+                        if (this.scrollY > top) {
+                            if (!isOnly) {
                                 isOnly = true;
                                 effect($div.find('ul')[0])
                             }
