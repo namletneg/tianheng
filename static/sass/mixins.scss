@@ -1,18 +1,24 @@
 @mixin clearfix {
-    *zoom: 1;
-    &:after,
-    &:before {
-        content: "";
-        display: table;
-    }
-    &:after {
-        clear: both;
-        overflow: hidden;
-    }
+  *zoom: 1;
+  &:after,
+  &:before {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+    overflow: hidden;
+  }
 }
 
-@mixin hide-text{
-    text-indent: -999em;
-    overflow: hidden;
-    color: transparent;
+@mixin hide-text {
+  text-indent: -999em;
+  overflow: hidden;
+  color: transparent;
+}
+
+@mixin text-hidden {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

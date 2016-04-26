@@ -1,5 +1,5 @@
 (function ($) {
-    // PC Í¼Æ¬»¬¶¯
+    // PC å›¾ç‰‡æ»‘åŠ¨
     $.fn.carousel = function () {
         var $this = this,
             isCarousel = false,
@@ -9,7 +9,7 @@
                     $items = $div.find('.item'),
                     $dots = $this.find('.carousel-dot a'),
                     idx = $div.find('.active').index(),
-                    direction = (n < idx) ? -1 : 1,  // ·½Ïò£º -1 ×ó£¬ 1 ÓÒ
+                    direction = (n < idx) ? -1 : 1,  // æ–¹å‘ï¼š -1 å·¦ï¼Œ 1 å³
                     len = $items.length;
 
                 n = (n < 0) ? len - 1 : n;
@@ -62,7 +62,7 @@
         init();
     };
 
-    // Mobile Í¼Æ¬»¬¶¯
+    // Mobile å›¾ç‰‡æ»‘åŠ¨
     function Slider(id, subElement) {
         this.wrap = document.getElementById(id);
         this.subElement = subElement;
@@ -102,25 +102,25 @@
                 handlerUp = function () {
                     var boundary = scale / 3,
                         endTime = new Date(),
-                        distance = endTime.getTime() - self.startTime.getTime();    //Ê±¼ä¼ä¸ô
+                        distance = endTime.getTime() - self.startTime.getTime();    //æ—¶é—´é—´éš”
 
                     if (distance >= 800) {
                         if (self.offsetX > boundary) {
-                            self.go(-1);   //ÍËÒ»Ò³
+                            self.go(-1);   //é€€ä¸€é¡µ
                         } else if (self.offsetX < -boundary) {
-                            self.go(1);    //½øÒ»Ò³
+                            self.go(1);    //è¿›ä¸€é¡µ
                         } else {
-                            self.go(0);   //Í£Áô±¾Ò³
+                            self.go(0);   //åœç•™æœ¬é¡µ
                         }
                     } else {
-                        //ÓÅ»¯£¬
-                        //¿ì²Ù×÷£¬¿¼ÂÇµ½ÓÃ»§¿ìËÙ»¬¶¯£¬»¬¶¯¾àÀë Ğ¡ÓÚ boundary
+                        //ä¼˜åŒ–ï¼Œ
+                        //å¿«æ“ä½œï¼Œè€ƒè™‘åˆ°ç”¨æˆ·å¿«é€Ÿæ»‘åŠ¨ï¼Œæ»‘åŠ¨è·ç¦» å°äº boundary
                         if (self.offsetX > 50) {
-                            self.go(-1);   //ÍËÒ»Ò³
+                            self.go(-1);   //é€€ä¸€é¡µ
                         } else if (self.offsetX < -50) {
-                            self.go(1);    //½øÒ»Ò³
+                            self.go(1);    //è¿›ä¸€é¡µ
                         } else {
-                            self.go(0);   //Í£Áô±¾Ò³
+                            self.go(0);   //åœç•™æœ¬é¡µ
                         }
                     }
                 };
@@ -141,7 +141,7 @@
                 len = item.length,
                 nIdx = self.idx + n;
 
-            //ÅĞ¶Ï nIdx ³¬³ö·¶Î§
+            //åˆ¤æ–­ nIdx è¶…å‡ºèŒƒå›´
             if (nIdx >= len) {
                 nIdx = len - 1;
             } else if (nIdx < 0) {
@@ -178,7 +178,7 @@
         $carousel.carousel();
     }
 
-    var //»ñÈ¡ elÔÚ body ÉÏµÄÎ»ÖÃ
+    var // è·å– elåœ¨ body ä¸Šçš„ä½ç½®
         getPosition = function (option) {
             var el = option,
                 x = 0,
@@ -187,13 +187,19 @@
             do {
                 x += el.offsetLeft;
                 y += el.offsetTop;
-            } while (el = el.offsetParent);  //Èô el µÄÉÏ²ãÔªËØÎª¾ø¶Ô¶¨Î»£¬Ôò el.offsetParent Îª¸ÃÔªËØ£»ÈçÃ»¶¨Î»£¬×·Ëİµ½ÉÏ²ã¶¨Î»ÔªËØ£¬Ö±ÖÁµ½ body
+            } while (el = el.offsetParent);  //è‹¥ el çš„ä¸Šå±‚å…ƒç´ ä¸ºç»å¯¹å®šä½ï¼Œåˆ™ el.offsetParent ä¸ºè¯¥å…ƒç´ ï¼›å¦‚æ²¡å®šä½ï¼Œè¿½æº¯åˆ°ä¸Šå±‚å®šä½å…ƒç´ ï¼Œç›´è‡³åˆ° body
             return {
                 x: x,
                 y: y
             }
         },
-    // ²úÆ·Àà±ğĞ§¹û
+    // navæ˜¾ç¤º
+        showNav = function () {
+            $('.header').on('click', '.touch', function(){
+                $('ul.nav').toggle();
+            });
+        },
+    // äº§å“ç±»åˆ«æ•ˆæœ
         productAnimate = function () {
             var isOnly = false,
                 effect = function (el) {
@@ -246,22 +252,143 @@
                 init();
             }
         },
-    // ·Å´óÍ¼Æ¬
+    // æ”¾å¤§å›¾ç‰‡
         magnifyView = function () {
             $('body').on('click', '.btn-magnify', function () {
                 var img = $(this).data('img'),
                     baseHTML = ['<div class="shade"></div>',
                         '<div class="model">',
-                        '<a href="javascript:;" class="close" title="¹Ø±Õ">¡Á</a>',
+                        '<a href="javascript:;" class="close" title="å…³é—­">Ã—</a>',
                         '<div class="magnify-img">',
                         '<img src="',
                         img,
                         '"/>',
                         '</div>',
                         '</div>'].join('');
-            });
+
+                $('body').append(baseHTML);
+            }).
+                on('click', '.close,.shade', function () {
+                    $('.shade, .model').remove();
+                });
+        },
+    // ç”»å¸ƒ
+        draw = function () {
+            var $div = $('.transparent-bg'),
+                $draw = $('.butou'),
+                y, top;
+
+            if ($div.length) {
+                y = getPosition($div[0]).y;
+                top = y - (1714 - $div.outerHeight());
+                $draw.css('top', top);
+                if (window.innerWidth > 800) {
+                    $(window).on('scroll', function () {
+                        var range = $(this).scrollTop() - (y - window.innerHeight + $div.outerHeight());
+
+                        if (range > 0 && $(this).scrollTop() < y + $div.outerHeight()) {
+                            $draw.css('top', top + range);
+                        }
+                    });
+                }
+            }
+        },
+    // åˆ—è¡¨æ»šåŠ¨
+        rollList = function () {
+            var isRolling = false,
+                rolling = function (shifting) {
+                    var $screen = $('.screen'),
+                        left = parseInt($screen.css('margin-left')) + shifting,
+                        range = 0;
+
+                    $screen.find('.qa').each(function () {
+                        range += parseInt($(this).outerWidth());
+                    });
+
+                    if (0 < left || -range >= left) {
+                        isRolling = false;
+                        return false;
+                    }
+                    $screen.animate({
+                        'margin-left': left
+                    }, 500, function () {
+                        isRolling = false;
+                    });
+                },
+                init = function () {
+                    var $screen = $('.screen'),
+                        $item = $screen.find('.qa'),
+                        scaleW = window.innerWidth - 10,
+                        isPc = true;
+
+                    if (window.innerWidth <= 800) {
+                        isPc = false;
+                        $item.width(scaleW);
+                    }
+
+                    $('#question_control').on('click', '.pre', function () {
+                        var left = isPc ? 1170 : scaleW;
+
+                        if (isRolling) {
+                            return false;
+                        }
+                        isRolling = true;
+                        rolling(left);
+                    }).
+                        on('click', '.next', function () {
+                            var left = isPc ? 1170 : scaleW;
+
+                            if (isRolling) {
+                                return false;
+                            }
+                            isRolling = true;
+                            rolling(-left);
+                        });
+
+                    $(window).resize(function () {
+                        if (window.innerWidth <= 800) {
+                            scaleW = window.innerWidth - 10;
+                            $item.width(scaleW);
+                        }
+                    });
+                };
+
+            if ($('.question').length) {
+                init();
+            }
+        },
+    // äº§å“å›¾ç‰‡å±•ç¤º
+        screen = function () {
+            var $div = $('.screen'),
+                $box;
+
+            if ($div.length) {
+                $box = $div.find('.box');
+
+                $div.on('mouseover', '.list .item', function () {
+                    var src = $(this).find('img').attr('src');
+
+                    $box.html('<img src="' + src + '"/>');
+                }).
+                    on('touchstart', '.list .item', function () {
+                        var src = $(this).find('img').attr('src');
+
+                        $box.html('<img src="' + src + '"/>');
+                    });
+            }
         };
 
-    // ²úÆ·Àà±ğĞ§¹û
+    // navæ˜¾ç¤º
+    showNav();
+    // äº§å“ç±»åˆ«æ•ˆæœ
     productAnimate();
+    // æ”¾å¤§å›¾ç‰‡
+    magnifyView();
+    // ç”»å¸ƒ
+    draw();
+    // åˆ—è¡¨æ»šåŠ¨
+    rollList();
+    // äº§å“å›¾ç‰‡å±•ç¤º
+    screen();
+
 })(jQuery);
