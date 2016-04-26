@@ -193,7 +193,7 @@
                 y: y
             }
         },
-    // 产品列表
+    // 产品类别效果
         productAnimate = function () {
             var isOnly = false,
                 effect = function (el) {
@@ -242,9 +242,26 @@
                     });
                 };
 
-            init();
+            if ($('.product').length) {
+                init();
+            }
+        },
+    // 放大图片
+        magnifyView = function () {
+            $('body').on('click', '.btn-magnify', function () {
+                var img = $(this).data('img'),
+                    baseHTML = ['<div class="shade"></div>',
+                        '<div class="model">',
+                        '<a href="javascript:;" class="close" title="关闭">×</a>',
+                        '<div class="magnify-img">',
+                        '<img src="',
+                        img,
+                        '"/>',
+                        '</div>',
+                        '</div>'].join('');
+            });
         };
-    if ($('.product').length) {
-        productAnimate();
-    }
+
+    // 产品类别效果
+    productAnimate();
 })(jQuery);
