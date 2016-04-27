@@ -196,7 +196,15 @@
     // nav显示
         showNav = function () {
             $('.header').on('click', '.touch', function(){
-                $('ul.nav').toggle();
+                $('ul.nav, .hot-line').toggle();
+            });
+
+            $(window).resize(function () {
+                if(window.innerWidth > 800){
+                    $('ul.nav, .hot-line').show();
+                } else{
+                    $('ul.nav, .hot-line').hide();
+                }
             });
         },
     // 产品类别效果
@@ -214,6 +222,8 @@
                     });
                 },
                 init = function () {
+                    effect($('.product').find('ul')[0]);
+
                     $('#product_control').on('click', '.pre', function () {
                         var $div = $('.product').find('.active'),
                             $prev = $div.prev();
@@ -234,18 +244,6 @@
                             $div.removeClass('active');
                             effect($next);
                         });
-
-                    $(window).on('scroll', function () {
-                        var $div = $('.product'),
-                            top = getPosition($div[0]).y - 500;
-
-                        if (this.scrollY > top) {
-                            if (!isOnly) {
-                                isOnly = true;
-                                effect($div.find('ul')[0])
-                            }
-                        }
-                    });
                 };
 
             if ($('.product').length) {
