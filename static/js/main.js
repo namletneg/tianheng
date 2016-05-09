@@ -195,14 +195,14 @@
         },
     // nav显示
         showNav = function () {
-            $('.header').on('click', '.touch', function(){
+            $('.header').on('click', '.touch', function () {
                 $('ul.nav, .hot-line').toggle();
             });
 
             $(window).resize(function () {
-                if(window.innerWidth > 800){
+                if (window.innerWidth > 800) {
                     $('ul.nav, .hot-line').show();
-                } else{
+                } else {
                     $('ul.nav, .hot-line').hide();
                 }
             });
@@ -252,23 +252,127 @@
         },
     // 放大图片
         magnifyView = function () {
-            $('body').on('click', '.btn-magnify', function () {
-                var img = $(this).data('img'),
-                    baseHTML = ['<div class="shade"></div>',
-                        '<div class="model">',
-                        '<a href="javascript:;" class="close" title="关闭">×</a>',
-                        '<div class="magnify-img">',
-                        '<img src="',
-                        img,
-                        '"/>',
-                        '</div>',
-                        '</div>'].join('');
+            var initScale,
+                initTranslate;
+            baseHTML = function (src) {
+                var str = ['<div class="shade"></div>',
+                    '<div class="model">',
+                    '<a href="javascript:;" class="close" title="关闭">×</a>',
+                    '<div class="magnify-img">',
+                    '<img id="myHammer" src="',
+                    src,
+                    '"/>',
+                    '</div>',
+                    '</div>'].join('');
 
-                $('body').append(baseHTML);
-            }).
-                on('click', '.close,.shade', function () {
-                    $('.shade, .model').remove();
-                });
+                $('body').append(str);
+            },
+                // 获取图片缩放倍数
+                getScale = function (el) {
+                    var str = $(el).css('transform');
+
+                    if (str === 'none') {
+                        return 1;
+                    } else {
+                        // 小数点保留两位
+                        return +parseFloat($(el).css('transform').match(/\d.*\d/)[0].split(',')[0]).toFixed(3);
+                    }
+                },
+                // 获取图片位移
+                getTranslate = function (el) {
+                    var str = $(el).css('transform'),
+                        arr,
+                        scale = getScale(el);
+
+                    if (str === 'none') {
+                        return {
+                            x: 0,
+                            y: 0
+                        };
+                    } else {
+                        arr = $(el).css('transform').match(/\d.*\d/);
+                        // 小数点保留两位
+                        return {
+                            x: +parseFloat(arr[0].split(',')[4] / scale).toFixed(3),
+                            y: +parseFloat(arr[0].split(',')[5] / scale).toFixed(3)
+                        };
+                    }
+                },
+                init = function () {
+                    $('body').on('click', '.btn-magnify', function () {
+                        var src = $(this).data('img');
+
+                        baseHTML(src);
+                    }).
+                        on('click', '.effect', function () {
+                            var src = $(this).find('.btn').data('img');
+
+                            baseHTML(src);
+
+                            // 手势缩放图片
+                            var el = document.getElementById('myHammer'),
+                                myHammer = new Hammer(el);
+
+                            initScale = getScale(el);
+                            initTranslate = getTranslate(el);
+                            myHammer.get('pinch').set({enable: true});
+                            myHammer.get('pan').set({direction: Hammer.DIRECTION_ALL});
+                            myHammer.on('pinch', function (ev) {
+                                var endScale = initScale + (parseFloat(ev.scale).toFixed(3) - 1);
+
+                                $('.console').html(initScale);
+                                endScale = endScale < 1 ? 1 : endScale;
+                                endScale = endScale > 3 ? 3 : endScale;
+
+                                $(el).css('transform', 'scale(' + endScale + ')');
+                                $(el).css('transform', 'scale(' + endScale + ') translate3d(' + initTranslate.x + 'px,' + initTranslate.y + 'px,0)');
+                            }).
+                                on('pan', function (ev) {
+                                    var endTranslateX = initTranslate.x + ev.deltaX,
+                                        endTranslateY = initTranslate.y + ev.deltaY,
+                                        rangeX = (initScale - 1) * $(el).width() / initScale / 2,
+                                        rangeY = (initScale - 1) * $(el).height() / initScale / 2;
+
+                                    $('.console').html(rangeX + ',' + rangeY);
+                                    $('.console3').html(endTranslateX + ',' + endTranslateY);
+                                    if (Math.abs(endTranslateX) < rangeX && Math.abs(endTranslateY) < rangeY) {
+                                    }
+
+                                    if (endTranslateX < 0) {
+                                        if (endTranslateX < -rangeX) {
+                                            endTranslateX = -rangeX;
+                                        }
+                                    } else {
+                                        if (endTranslateX > rangeX) {
+                                            endTranslateX = rangeX;
+                                        }
+                                    }
+                                    if (endTranslateY < 0) {
+                                        if (endTranslateY < -rangeY) {
+                                            endTranslateY = -rangeY;
+                                        }
+                                    } else {
+                                        if (endTranslateY > rangeY) {
+                                            endTranslateY = rangeY;
+                                        }
+                                    }
+                                    $(el).css('transform', 'scale(' + initScale + ') translate3d(' + endTranslateX + 'px,' + endTranslateY + 'px,0)');
+                                });
+                        }).
+                        on('click', '.close,.shade', function () {
+                            $('.shade, .model').remove();
+                        }).
+                        on('touchstart', '.shade', function (event) {
+                            event.preventDefault();
+                            $('.shade, .model').remove();
+                        }).
+                        on('touchend', '#myHammer', function () {
+                            initScale = getScale(this);
+                            initTranslate = getTranslate(this);
+                        });
+                };
+
+            init();
         },
     // 画布
         draw = function () {
@@ -388,5 +492,4 @@
     rollList();
     // 产品图片展示
     screen();
-
 })(jQuery);
